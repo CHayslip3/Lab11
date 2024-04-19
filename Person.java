@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.text.DecimalFormat;
 
-public class Person implements Comparable<Person>{
+public class Person implements Comparable<Person>, Serializable{
 	private int age;
 	private String name;
 	private String address;
