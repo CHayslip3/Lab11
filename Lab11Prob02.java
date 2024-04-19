@@ -6,13 +6,17 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 public class Lab11Prob02 {
 	public static void main(String[] args){
-		File inputFile, outputFile;
+		File inputFile, outputFile, sortedFile;
+		ArrayList<Person> PersonList = new ArrayList<Person>();
 		
 		inputFile = new File("src/people.dat");
 		outputFile = new File("src/people-copy.dat");
+		sortedFile = new File("src/people-salary-sorted.dat");
 		
 		if(!inputFile.exists()) {
 			System.out.print("Input File " + inputFile + " does not exist." );
@@ -40,18 +44,35 @@ public class Lab11Prob02 {
 				output.writeInt(zipcode);
 				salary = input.readDouble();
 				output.writeDouble(salary);
+				PersonList.add(new Person(age, name, address, zipcode, salary));
 				System.out.printf("%d %s %s %d %.2f%n", age, name, address, 
 						zipcode, salary);	
 			}
 		}
 		catch(EOFException ex) {
-			//System.out.println("Reached the end of the file");
+			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			
 		}
+		
+		Collections.sort(PersonList);
+		try(
+				//create output stream for people-salary-sorted.dat
+				DataOutputStream output = new DataOutputStream(new FileOutputStream("src/people-salary-sorted.dat"));
+				){
+			
+			for(int i = 0; i < PersonList.size(); i++) {
+				output.writeUTF(PersonList.get(i).toString());
+				System.out.print(PersonList.get(i).toString());
+			}
+			
+		} catch (FileNotFoundException e) {
+			
+		} catch (IOException e) {
+			
+		}
+		
 	}
 }
